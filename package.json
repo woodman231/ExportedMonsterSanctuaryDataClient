@@ -14,8 +14,9 @@
   "engineStrict": true,
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/woodman231/ExportedMonsterSanctuaryDataClient"
   },
+  "homepage": "https://github.com/woodman231/ExportedMonsterSanctuaryDataClient",
   "scripts": {
     "build": "ts-node ./tasks/run-build.ts",
     "build:dev": "ts-node --project ./tsconfig-dev.json ./tasks/run-build.ts -d",
