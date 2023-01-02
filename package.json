@@ -1,6 +1,6 @@
 {
   "name": "@woodman231/exportedmonstermanctuarydataclient",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A client for the Exported Monster Sanctuary Data.",
   "author": "Sean Woodward <seanwoodward@live.com>",
   "main": "./dist/index.js",
@@ -14,8 +14,9 @@
   "engineStrict": true,
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/woodman231/ExportedMonsterSanctuaryDataClient"
   },
+  "homepage": "https://github.com/woodman231/ExportedMonsterSanctuaryDataClient",
   "scripts": {
     "build": "ts-node ./tasks/run-build.ts",
     "build:dev": "ts-node --project ./tsconfig-dev.json ./tasks/run-build.ts -d",
