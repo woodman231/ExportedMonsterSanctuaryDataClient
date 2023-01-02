@@ -1,6 +1,6 @@
 {
   "name": "@woodman231/exportedmonstermanctuarydataclient",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A client for the Exported Monster Sanctuary Data.",
   "author": "Sean Woodward <seanwoodward@live.com>",
   "main": "./dist/index.js",
