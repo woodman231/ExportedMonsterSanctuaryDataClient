@@ -25,14 +25,18 @@ export default abstract class ReferenceableClient<Type extends Referenceable> ex
      * @returns {Promise<Type> | null} The object that has an ID property that matches the id paramater. Returns null if an object could not be found.
      */
     getObjectByIDPropertyAsync = async (id: number): Promise<Type | null> => {
-        const allObjectsInDirectory = await this.getAllObjectsInDirectoryAsync();
-        allObjectsInDirectory.forEach((objectInDirectory) => {
-            if(objectInDirectory.ID === id) {
-                return objectInDirectory;
-            }
-        })
+        let results : Type | null = null;
 
-        return null;
+        const allObjectsInDirectory = await this.getAllObjectsInDirectoryAsync();
+        
+        for(let i=0; i<allObjectsInDirectory.length; i++) {
+            if(allObjectsInDirectory[i].ID === id) {
+                results = allObjectsInDirectory[i];
+                break;
+            }
+        }        
+
+        return results;
     }
 
     /**
@@ -41,14 +45,18 @@ export default abstract class ReferenceableClient<Type extends Referenceable> ex
      * @returns {Promise<Type> | null} The object that has an Name property that matches the name paramater. Returns null if an object could not be found.
      */
     getObjectByNamePropertyAsync = async (name: string): Promise<Type | null> => {
-        const allObjectsInDirectory = await this.getAllObjectsInDirectoryAsync();
-        allObjectsInDirectory.forEach((objectInDirectory) => {
-            if(objectInDirectory.Name === name) {
-                return objectInDirectory as Type
-            }
-        })
+        let results : Type | null = null;
 
-        return null;
+        const allObjectsInDirectory = await this.getAllObjectsInDirectoryAsync();
+        
+        for(let i=0; i<allObjectsInDirectory.length; i++) {
+            if(allObjectsInDirectory[i].Name === name) {
+                results = allObjectsInDirectory[i];
+                break;
+            }
+        }        
+
+        return results;
     }
 
 }

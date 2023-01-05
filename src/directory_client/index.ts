@@ -31,8 +31,8 @@ export default abstract class DirectoryClient<Type> implements IDirectoryClient<
 
         const itemsInDirectory : string[] = await fs.readdir(this.directoryName);
 
-        const readFilePromises: Promise<void>[] = itemsInDirectory.map(async (itemInDirectory) => {            
-            if(itemInDirectory.endsWith('.json')) {
+        const readFilePromises: Promise<void>[] = itemsInDirectory.map(async (itemInDirectory: string) => {            
+            if(String(itemInDirectory).endsWith('.json')) {
                 const fullItemName: string = path.join(this.directoryName, itemInDirectory);
                 const itemStats: Stats = await fs.stat(fullItemName);
 
@@ -72,7 +72,7 @@ export default abstract class DirectoryClient<Type> implements IDirectoryClient<
         const itemsInDirectory : string[] = await fs.readdir(this.directoryName);
 
         const readFilePromises: Promise<void>[] = itemsInDirectory.map(async (itemInDirectory) => {            
-            if(itemInDirectory.endsWith('.json')) {
+            if(String(itemInDirectory).endsWith('.json')) {
                 const fullItemName: string = path.join(this.directoryName, itemInDirectory);
                 const itemStats: Stats = await fs.stat(fullItemName);
 
