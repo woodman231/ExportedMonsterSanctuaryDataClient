@@ -1,6 +1,6 @@
 {
   "name": "@woodman231/exportedmonstermanctuarydataclient",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A client for the Exported Monster Sanctuary Data.",
   "author": "Sean Woodward <seanwoodward@live.com>",
   "main": "./dist/index.js",
@@ -9,7 +9,7 @@
   ],
   "types": "./dist/__types__",
   "engines": {
-    "node": ">=12.10.0"
+    "node": ">=18.12.1"
   },
   "engineStrict": true,
   "repository": {
@@ -26,14 +26,14 @@
   },
   "peerDependencies": {
     "@woodman231/exportedmonstersanctuarydata": "1.0.1",
-    "@woodman231/exportedmonstersanctuarydatatypes": "2.0.0"
+    "@woodman231/exportedmonstersanctuarydatatypes": "3.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
     "@types/sinon": "^10.0.13",
     "@woodman231/exportedmonstersanctuarydata": "^1.0.1",
-    "@woodman231/exportedmonstersanctuarydatatypes": "^2.0.0",
+    "@woodman231/exportedmonstersanctuarydatatypes": "^3.0.0",
     "jest": "^29.3.1",
     "sinon": "^15.0.1",
     "ts-jest": "^29.0.3",
