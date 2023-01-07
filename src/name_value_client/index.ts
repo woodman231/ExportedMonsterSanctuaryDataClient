@@ -25,14 +25,18 @@ export default abstract class NameValueClient<Type extends NameValueObject> exte
      * @returns {Promise<Type> | null} The object where the Value property matches the value paramater or null if one could not be found
      */
     getObjectByValueAsync = async (value: number): Promise<Type | null> => {
-        const allObjectsInDirectory = await this.getAllObjectsInDirectoryAsync();
-        allObjectsInDirectory.forEach((objectInDirectory) => {
-            if(objectInDirectory.Value === value) {
-                return objectInDirectory;
-            }
-        })
+        let results : Type | null = null;
 
-        return null;
+        const allObjectsInDirectory = await this.getAllObjectsInDirectoryAsync();
+        
+        for(let i=0; i<allObjectsInDirectory.length; i++) {
+            if(allObjectsInDirectory[i].Value === value) {
+                results = allObjectsInDirectory[i];
+                break;
+            }
+        }        
+
+        return results;
     }
 
     /**
@@ -41,14 +45,18 @@ export default abstract class NameValueClient<Type extends NameValueObject> exte
      * @returns {Promise<Type> | null} The object where the Name property matches the name paramater or null if one could not be found
      */
     getObjectByNameAsync = async (name: string): Promise<Type | null> => {
-        const allObjectsInDirectory = await this.getAllObjectsInDirectoryAsync();
-        allObjectsInDirectory.forEach((objectInDirectory) => {
-            if(objectInDirectory.Name === name) {
-                return objectInDirectory;
-            }
-        })
+        let results : Type | null = null;
 
-        return null;
+        const allObjectsInDirectory = await this.getAllObjectsInDirectoryAsync();
+        
+        for(let i=0; i<allObjectsInDirectory.length; i++) {
+            if(allObjectsInDirectory[i].Name === name) {
+                results = allObjectsInDirectory[i];
+                break;
+            }
+        }        
+
+        return results;
     }
 
 }

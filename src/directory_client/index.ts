@@ -1,11 +1,11 @@
-import { Stats } from 'fs';
+import { Dirent, Stats } from 'fs';
 import * as fs from 'fs/promises'
 import path from 'path';
 
-export interface IDirectoryClient<Type> {    
-    readonly directoryName: string;    
-    getAllFileNamesAsync (): Promise<string[]>
-    getObjectFromFileByFileNameAsync(fileNameWithoutJsonExtension : string): Promise<Type | null>
+export interface IDirectoryClient<Type> {
+    readonly directoryName: string;
+    getAllFileNamesAsync(): Promise<string[]>
+    getObjectFromFileByFileNameAsync(fileNameWithoutJsonExtension: string): Promise<Type | null>
     getAllObjectsInDirectoryAsync(): Promise<Type[]>
 }
 
@@ -17,7 +17,7 @@ export default abstract class DirectoryClient<Type> implements IDirectoryClient<
      * @constructor
      * @param {string} directoryName - The directory containg the objects
      */
-    constructor(directoryName:string) {
+    constructor(directoryName: string) {
         this.directoryName = directoryName;
     }
 
@@ -29,22 +29,34 @@ export default abstract class DirectoryClient<Type> implements IDirectoryClient<
     getAllFileNamesAsync = async (): Promise<string[]> => {
         let results = [] as string[];
 
-        const itemsInDirectory : string[] = await fs.readdir(this.directoryName);
+        const itemsInDirectory: Dirent[] = await fs.readdir(this.directoryName, { encoding: 'utf8', withFileTypes: true });
 
-        const readFilePromises: Promise<void>[] = itemsInDirectory.map(async (itemInDirectory) => {            
-            if(itemInDirectory.endsWith('.json')) {
+        /*
+        const readFilePromises: Promise<void>[] = itemsInDirectory.map(async (itemInDirectory: string) => {
+            if (itemInDirectory.endsWith('.json')) {
                 const fullItemName: string = path.join(this.directoryName, itemInDirectory);
                 const itemStats: Stats = await fs.stat(fullItemName);
 
-                if(itemStats.isFile()) {
+                if (itemStats.isFile()) {
                     const fileNameWithoutJsonExtension = itemInDirectory.substring(0, itemInDirectory.length - 5);
 
                     results.push(fileNameWithoutJsonExtension);
                 }
-            }            
+            }
         });
 
         await Promise.all(readFilePromises);
+        */
+
+        itemsInDirectory.forEach((itemInDirectory) => {
+            if(itemInDirectory.isFile()) {
+                if(itemInDirectory.name.endsWith('.json')) {
+                    const fileNameWithoutJsonExtension = itemInDirectory.name.substring(0, itemInDirectory.name.length - 5);
+
+                    results.push(fileNameWithoutJsonExtension);
+                }
+            }
+        });
 
         return results;
     }
@@ -55,11 +67,21 @@ export default abstract class DirectoryClient<Type> implements IDirectoryClient<
      * @returns {Promise<Type> | null} Returns the object of the matching file name. Will return null if one could not be found.
      */
     getObjectFromFileByFileNameAsync = async (fileNameWithoutJsonExtension: string): Promise<Type | null> => {
-        const fullFileName = path.join(this.directoryName, `${fileNameWithoutJsonExtension}.json`);
-        const fileContents = await fs.readFile(fullFileName, 'utf8');
-        const fileContentsAsObject = JSON.parse(fileContents) as Type
+        try {
+            const fullFileName = path.join(this.directoryName, `${fileNameWithoutJsonExtension}.json`);
+            const fileStats = await fs.stat(fullFileName);
 
-        return fileContentsAsObject;        
+            if(fileStats.isFile()) {
+                const fileContents = await fs.readFile(fullFileName, 'utf8');
+                const fileContentsAsObject = JSON.parse(fileContents) as Type
+
+                return fileContentsAsObject;
+            } else {
+                throw new Error('Only able to read files');
+            }
+        } catch {
+            return null;
+        }
     }
 
     /**
@@ -69,20 +91,44 @@ export default abstract class DirectoryClient<Type> implements IDirectoryClient<
     getAllObjectsInDirectoryAsync = async (): Promise<Type[]> => {
         var results = [] as Type[];
 
-        const itemsInDirectory : string[] = await fs.readdir(this.directoryName);
+        const itemsInDirectory: Dirent[] = await fs.readdir(this.directoryName, { encoding: 'utf8', withFileTypes: true });
 
-        const readFilePromises: Promise<void>[] = itemsInDirectory.map(async (itemInDirectory) => {            
-            if(itemInDirectory.endsWith('.json')) {
-                const fullItemName: string = path.join(this.directoryName, itemInDirectory);
-                const itemStats: Stats = await fs.stat(fullItemName);
-
-                if(itemStats.isFile()) {
-                    const fileContents = await fs.readFile(fullItemName, 'utf8');
-                    const fileAsObject = JSON.parse(fileContents) as Type;
-
-                    results.push(fileAsObject);
+        /*
+        const readFilePromises: Promise<void>[] = itemsInDirectory.map(async (itemInDirectory) => {
+            try {
+                if (itemInDirectory.endsWith('.json')) {
+                    const fullItemName: string = path.join(this.directoryName, itemInDirectory);
+                    const itemStats: Stats = await fs.stat(fullItemName);
+    
+                    if (itemStats.isFile()) {
+                        const fileContents = await fs.readFile(fullItemName, 'utf8');
+                        const fileAsObject = JSON.parse(fileContents) as Type;
+    
+                        results.push(fileAsObject);
+                    }
                 }
-            }            
+            } catch {
+                // Do not add it to the results if the file does not exist or could not be parsed
+            }
+        });
+
+        await Promise.all(readFilePromises);
+        */
+
+        const readFilePromises: Promise<void>[] = itemsInDirectory.map(async (itemInDirectory) => {
+            if(itemInDirectory.isFile()) {
+                if(itemInDirectory.name.endsWith('.json')) {
+                    try {
+                        const fullFileName = path.join(this.directoryName, itemInDirectory.name);
+                        const fileContents = await fs.readFile(fullFileName, 'utf8');
+                        const fileContentsAsObject = JSON.parse(fileContents) as Type
+
+                        results.push(fileContentsAsObject);
+                    } catch {
+                        // Do not add it to the results if the contents cannot be read or parsed
+                    }
+                }
+            }
         });
 
         await Promise.all(readFilePromises);
