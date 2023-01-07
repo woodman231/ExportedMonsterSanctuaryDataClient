@@ -1,7 +1,7 @@
 import path from 'path';
 import ExportedMonsterSanctuaryDataClient from '../src/index'
 
-describe('testing index file', () => {
+describe('ExportedMonsterSanctuaryDataClient', () => {
     test('providing no paramater to constructor makes the default path cwd, node_modules, @woodman231, exportedmonstersanctuarydata', () => {
         const testExportedMonstersanctuaryDataClient = new ExportedMonsterSanctuaryDataClient();
 
