@@ -7,17 +7,16 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "target": "ES2015",
-    "outDir": "./dist",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2020",
     "declaration": true,
-    "declarationDir": "./dist/__types__",
     "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
     // Production specific
     "removeComments": false,
-    "sourceMap": false,
-    "watch": false
+    "sourceMap": false
   },
   "include": [
     "./src"

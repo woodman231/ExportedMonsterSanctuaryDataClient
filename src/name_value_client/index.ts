@@ -1,6 +1,6 @@
 import DirectoryClient from "../directory_client";
 
-interface NameValueObject {    
+export interface NameValueObject {    
     Name: string;    
     Value: number;
 }
@@ -10,7 +10,7 @@ interface INameValueClient<Type extends NameValueObject> extends DirectoryClient
     getObjectByNameAsync(name: string): Promise<Type | null>
 }
 
-export default abstract class NameValueClient<Type extends NameValueObject> extends DirectoryClient<Type> implements INameValueClient<Type> {
+abstract class NameValueClient<Type extends NameValueObject> extends DirectoryClient<Type> implements INameValueClient<Type> {
     /**
      * Creates a new instance of NameValueClient
      * @param directoryName - the directory containg the objects that have at least a {Name: string; Value: number} signature
@@ -60,3 +60,6 @@ export default abstract class NameValueClient<Type extends NameValueObject> exte
     }
 
 }
+
+export default NameValueClient;
+export { NameValueClient };

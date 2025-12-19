@@ -1,6 +1,6 @@
 import DirectoryClient from "../directory_client";
 
-interface Referenceable {
+export interface Referenceable {
     ID: number;
     Name: string;    
 }
@@ -10,7 +10,7 @@ interface IReferenceableClient<Type extends Referenceable> extends DirectoryClie
     getObjectByNamePropertyAsync(name: string): Promise<Type | null>
 }
 
-export default abstract class ReferenceableClient<Type extends Referenceable> extends DirectoryClient<Type> implements IReferenceableClient<Type> {
+abstract class ReferenceableClient<Type extends Referenceable> extends DirectoryClient<Type> implements IReferenceableClient<Type> {
     /**
      * Creates a new instance of ReferenceableClient
      * @param {string} directoryName - The name of the directory where the referenceables are. A referenceable is valid if the objects in the directory match the {ID: number; Name: string} signature
@@ -60,3 +60,6 @@ export default abstract class ReferenceableClient<Type extends Referenceable> ex
     }
 
 }
+
+export default ReferenceableClient;
+export { ReferenceableClient };

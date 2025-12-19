@@ -9,7 +9,7 @@ export interface IDirectoryClient<Type> {
     getAllObjectsInDirectoryAsync(): Promise<Type[]>
 }
 
-export default abstract class DirectoryClient<Type> implements IDirectoryClient<Type> {
+abstract class DirectoryClient<Type> implements IDirectoryClient<Type> {
     readonly directoryName: string;
 
     /**
@@ -136,3 +136,6 @@ export default abstract class DirectoryClient<Type> implements IDirectoryClient<
         return results;
     }
 }
+
+export default DirectoryClient;
+export { DirectoryClient };

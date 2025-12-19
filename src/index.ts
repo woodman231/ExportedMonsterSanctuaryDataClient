@@ -7,7 +7,7 @@ import ItemsClient from "./items_client";
 import MonstersClient from "./monsters_client";
 import SpecialBuffsClient from "./special_buffs_client";
 
-export default class ExportedMonsterSanctuaryDataClient {    
+class ExportedMonsterSanctuaryDataClient {    
     buffsClient: BuffsClient;
     debuffsClient: DebuffsClient;
     enumsClient: EnumsClient;
@@ -47,3 +47,22 @@ export default class ExportedMonsterSanctuaryDataClient {
         this.specialBuffsClient = new SpecialBuffsClient(specialBuffsPath);
     }
 }
+
+// Default export for backward compatibility
+export default ExportedMonsterSanctuaryDataClient;
+
+// Named export of main class
+export { ExportedMonsterSanctuaryDataClient };
+
+// Re-export all client classes
+export { BuffsClient } from "./buffs_client";
+export { DebuffsClient } from "./debuffs_client";
+export { EnumsClient } from "./enums_client";
+export { ItemsClient } from "./items_client";
+export { MonstersClient } from "./monsters_client";
+export { SpecialBuffsClient } from "./special_buffs_client";
+
+// Re-export base classes
+export { DirectoryClient, IDirectoryClient } from "./directory_client";
+export { NameValueClient, NameValueObject } from "./name_value_client";
+export { ReferenceableClient, Referenceable } from "./referenceable_client";
